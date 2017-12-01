@@ -14,4 +14,4 @@ Then restart mafia, maybe.
 
 Screenshots
 ----------------
-[![Mummery](https://raw.github.com/Ezandora/Mummery/master/images/mummery.png)](https://raw.github.com/Ezandora/Mummery/master/images/mummery.png)
+[![Mummery](https://raw.github.com/Ezandora/Mummery/master/Images/mummery.png)](https://raw.github.com/Ezandora/Mummery/master/Images/mummery.png)
