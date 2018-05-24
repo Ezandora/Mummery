@@ -11,22 +11,54 @@ Record Button
 void main()
 {
 	string [string] shorthand_descriptions;
-	shorthand_descriptions["The Captain"] = "+15%? meat";
-	shorthand_descriptions["Prince George"] = "+15%? item";
-	shorthand_descriptions["Beelzebub"] = "MP regen/fight";
-	shorthand_descriptions["Saint Patrick"] = "+2? muscle stats/fight";
-	shorthand_descriptions["Oliver Cromwell"] = "+2? myst stats/fight";
-	shorthand_descriptions["The Doctor"] = "HP regen/fight";
-	shorthand_descriptions["Miss Funny"] = "+2? moxie stats/fight";
+	shorthand_descriptions["The Captain"] = "+15% meat";
+	shorthand_descriptions["Prince George"] = "+15% item";
+	shorthand_descriptions["Beelzebub"] = "4-5 MP regen/fight";
+	shorthand_descriptions["Saint Patrick"] = "+3 muscle stats/fight";
+	shorthand_descriptions["Oliver Cromwell"] = "+3 myst stats/fight";
+	shorthand_descriptions["The Doctor"] = "8-10 HP regen/fight";
+	shorthand_descriptions["Miss Funny"] = "+2 moxie stats/fight";
 	int [string] ordering;
 	ordering["The Captain"] = 0;
 	ordering["Prince George"] = 1;
-	ordering["The Doctor"] = 2; //"HP regen/fight";
-	ordering["Beelzebub"] = 3; //"MP regen/fight";
-	ordering["Saint Patrick"] = 4; //"+2? muscle stats/fight";
-	ordering["Oliver Cromwell"] = 5; //"+2? myst stats/fight";
-	ordering["Miss Funny"] = 6; //"+2? moxie stats/fight";
+	ordering["The Doctor"] = 2;
+	ordering["Beelzebub"] = 3;
+	ordering["Saint Patrick"] = 4;
+	ordering["Oliver Cromwell"] = 5;
+	ordering["Miss Funny"] = 6;
 	ordering["Never Mind"] = 10000;
+	string [string] boosts;
+	boosts["The Captain"] = "hands";
+	boosts["Prince George"] = "clothes";
+	boosts["Beelzebub"] = "wings";
+	boosts["Saint Patrick"] = "animal";
+	boosts["Oliver Cromwell"] = "eyes";
+	boosts["The Doctor"] = "mechanical";
+	boosts["Miss Funny"] = "sleazy";
+	string [string] boosted_descriptions;
+	boosted_descriptions["The Captain"] = "25% meat";
+	boosted_descriptions["Prince George"] = "25% item";
+	boosted_descriptions["Beelzebub"] = "6-10 MP regen/fight";
+	boosted_descriptions["Saint Patrick"] = "+4 muscle stats/fight";
+	boosted_descriptions["Oliver Cromwell"] = "+4 myst stats/fight";
+	boosted_descriptions["The Doctor"] = "18-20 HP regen/fight";
+	boosted_descriptions["Miss Funny"] = "+4 moxie stats/fight";
+	string [string] specials;
+	specials["The Captain"] = "undead";
+	specials["Prince George"] = "quick";
+	specials["Beelzebub"] = "hot";
+	specials["Saint Patrick"] = "biting";
+	specials["Oliver Cromwell"] = "flying";
+	specials["The Doctor"] = "evil";
+	specials["Miss Funny"] = "bug";
+	string [string] special_descriptions;
+	special_descriptions["The Captain"] = "delevel 25% at start of combat";
+	special_descriptions["Prince George"] = "phys damage and bleed on weapon hit";
+	special_descriptions["Beelzebub"] = "hot damage on weapon hit";
+	special_descriptions["Saint Patrick"] = "stagger on first action";
+	special_descriptions["Oliver Cromwell"] = "helps get the jump";
+	special_descriptions["The Doctor"] = "phys damage and delevel on weapon hit";
+	special_descriptions["Miss Funny"] = "sleaze damage on weapon hit";
 
 	buffer page_text = visit_url();
 	
@@ -56,8 +88,12 @@ void main()
 		b.option = text.group_string("<input[ ]*type=hidden[ ]*name=option[ ]*value=([0-9]*)")[0][1].to_int();
 		b.name = text.group_string("<input[ ]*class=button[ ]*type=submit[ ]*value=\"(.*?)\"")[0][1];
 		b.description = text.group_string("<b>(.*?)</b>")[0][1];
-		if (shorthand_descriptions contains b.name && false)
+		if (boosts contains b.name && boosted_descriptions contains b.name && my_familiar().attributes.index_of(boosts[b.name]) != -1)
+			b.description = "<b>" + boosted_descriptions[b.name] + "</b>";
+		else if (shorthand_descriptions contains b.name)
 			b.description = shorthand_descriptions[b.name];
+		if (specials contains b.name && special_descriptions contains b.name && my_familiar().attributes.index_of(specials[b.name]) != -1)
+			b.description += "<br/>" + special_descriptions[b.name];
 		b.ordering = ordering[b.name];
 		buttons[buttons.count()] = b;
 	}
