@@ -8,7 +8,7 @@ Installation
 ----------------
 Run this command in the graphical CLI in KoLmafia:
 <pre>
-svn checkout https://github.com/Ezandora/Mummery/branches/Release/
+git checkout Ezandora/Mummery Release
 </pre>
 Then restart mafia, maybe.
 
